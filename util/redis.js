@@ -67,7 +67,7 @@ const redisObj = {
 // 返回的是一个redis.client的实例
 module.exports = redisObj.init();
 
-//-------------------------------
+//-------------------------------Sample Code
 // const redis = require('./util/redis')
 // redis.set('casher:test:key', "val", (err, res) => {
 //     console.log(err)
