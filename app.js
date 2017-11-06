@@ -3,11 +3,13 @@ const koaRouter = require('koa-router')();
 const json = require('koa-json');
 const logger = require('koa-logger');
 const jwt = require('koa-jwt');
-const log4js = require('koa-log4')
+const views = require('koa-views')
+const path = require('path')
 
 // import log4j setting.
+const log4js = require('koa-log4')
 require('./util/log4j')
-const log4j = log4js.getLogger('mgtest')
+const log4j = log4js.getLogger('mgcasher')
 log4j.info('--------step into koa-------------')
 
 // Oh hooo~~ init daddy object.ß
@@ -40,15 +42,20 @@ app.use(json());
 app.use(logger());
 
 app.on('error', function (err, ctx) {
-    console.log('server error', err);
+    log4j.error('server error', err);
 });
+
+// Load ejs template engine.
+app.use(views(path.join(__dirname, './views'), {
+    extension: 'ejs'
+}))
 
 // Middleware below this line is only reached if JWT token is valid
 // unless the URL starts with '/auth'
 app.use(jwt({
     secret: 'shared-secret'
 }).unless({
-    path: [/^\/auth\/login/]
+    path: [/^\/auth\/login/, /^\/page\/index/]
 }));
 
 app.use(log4js.koaLogger(log4js.getLogger('http'), {
@@ -58,6 +65,7 @@ app.use(log4js.koaLogger(log4js.getLogger('http'), {
 const indexRouters = require('./api/index')
 app.use(indexRouters.routes()).use(indexRouters.allowedMethods());
 
+
 app.listen(8080, () => {
-    console.log('Server is listening in 8080');
+    log4j.debug('Server is listening in 8080');
 });

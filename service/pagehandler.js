@@ -1,22 +1,17 @@
 const user = require('../dao/user.js');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 module.exports = {
-    async loadIndex(ctx) {
-        let title = 'hello koa2'
-        await ctx.render('index', {
-          title
-        })
-    },
+    // async loadIndex(ctx) {
+    //     let title = 'hello koa2, This is the page handler.'
+    //     await ctx.render('index', {
+    //       title
+    //     })
+    // },
 
     async getUserInfo(ctx) {
-        const id = ctx.params.id; // 获取url里传过来的参数里的id
-        const result = await user.getUserById(id); // 通过yield “同步”地返回查询结果
-        console.log(result);
-        ctx.body = result // 将请求的结果放到response的body里返回
-    },
-
+        ctx.body = ""
+    }
+    /**
     async postUserAuth(ctx) {
         console.log(ctx.request.body);
         const data = ctx.request.body; // post过来的数据存在request.body里
@@ -48,10 +43,5 @@ module.exports = {
                 info: '用户不存在！' // 如果用户不存在返回用户不存在
             }
         }
-    }
+    }*/
 }
-
-// module.exports = {
-//     getUserInfo,
-//     postUserAuth
-// }
